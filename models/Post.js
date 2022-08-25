@@ -12,7 +12,7 @@ const PostSchema = new mongoose.Schema(
       unique: true,
     },
     tags: {
-      type: String,
+      type: Array,
       default: [],
     },
     viewsCount: {
@@ -21,7 +21,7 @@ const PostSchema = new mongoose.Schema(
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'USer',
+      ref: 'User',
     },
     imageUrl: String,
   },
