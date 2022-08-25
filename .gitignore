@@ -1,6 +1,10 @@
 # Logs
 logs
 *.log
+<<<<<<< HEAD
+*console.log
+=======
+>>>>>>> eb89677a6ac188ab91e7a4c4a95775a26f86bed8
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -21,4 +25,8 @@ dist-ssr
 *.ntvs*
 *.njsproj
 *.sln
+<<<<<<< HEAD
 *.sw?
+=======
+*.sw?
+>>>>>>> eb89677a6ac188ab91e7a4c4a95775a26f86bed8
