@@ -1,31 +1,41 @@
 import express from 'express';
-import jwt from 'jsonwebtoken';
+
 import mongoose from 'mongoose';
-import { validationResult } from 'express-validator';
-import { registerValidation } from './validations/auth.js';
+
+import {
+  registerValidation,
+  loginValidation,
+  postCreateValidation,
+} from './validations/validation.js';
+
+import checkAuth from './utils/checkAuth.js';
+
+import * as UserController from './controllers/UserController.js';
+import * as PostController from './controllers/PostController.js';
 
 mongoose
   .connect(
-    'mongodb+srv://admin:123qwe123@cluster0.uttnnnf.mongodb.net/?retryWrites=true&w=majority',
+    'mongodb+srv://admin:123qwe123@cluster0.uttnnnf.mongodb.net/ds_platform?retryWrites=true&w=majority',
   )
   .then(() => console.log('DB OK'))
   .catch((err) => console.log('DB error', err));
+
 const app = express();
 
 app.get('/', (req, res) => {
   res.send('Hello world');
 });
-
 app.use(express.json());
 
-app.post('/auth/register', registerValidation, (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json(errors.array());
-  }
+app.get('/auth/login', loginValidation, UserController.login);
+app.get('/auth/register', registerValidation, UserController.register);
+app.post('/auth/me', checkAuth, UserController.getMe);
 
-  res.json({ success: true });
-});
+app.post('/posts', checkAuth, postCreateValidation, PostController.create);
+// app.get('/posts', PostController.getAll);
+// app.get('/posts/:id', PostController.getOne);
+// app.delete('/posts', PostController.remove);
+// app.patch('/posts', PostController.update);
 
 app.listen(4444, (err) => {
   if (err) {
